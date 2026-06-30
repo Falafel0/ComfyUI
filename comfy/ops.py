@@ -1089,6 +1089,19 @@ def _load_quantized_module(module, super_load, state_dict, prefix, local_metadat
             if ts is None or bs is None:
                 raise ValueError(f"Missing NVFP4 scales for layer {layer_name}")
             scales = {"scale": ts, "block_scale": bs}
+        elif module.quant_format == "int8_tensorwise":
+            scale = pop_scale("weight_scale")
+            if scale is None:
+                raise ValueError(f"Missing INT8 weight scale for layer {layer_name}")
+            scales = {"scale": scale}
+            params_conf = layer_conf.get("params", {})
+            if not isinstance(params_conf, dict):
+                params_conf = {}
+            if layer_conf.get("convrot", params_conf.get("convrot", False)):
+                scales["convrot"] = True
+                scales["convrot_groupsize"] = int(
+                    layer_conf.get("convrot_groupsize", params_conf.get("convrot_groupsize", 256))
+                )
         else:
             raise ValueError(f"Unsupported quantization format: {module.quant_format}")
 

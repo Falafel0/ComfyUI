@@ -120,5 +120,5 @@ class BASE:
         self.manual_cast_dtype = manual_cast_dtype
 
     def __getattr__(self, name):
-        logging.warning("\nWARNING, you accessed {} from the model config object which doesn't exist. Please fix your code.\n".format(name))
+        logging.debug("\nWARNING, you accessed {} from the model config object which doesn't exist. Please fix your code.\n".format(name))
         return None

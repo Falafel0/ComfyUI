@@ -557,7 +557,7 @@ if __name__ == "__main__":
         logging.warning("WARNING: You are using a python version older than 3.10, please upgrade to a newer one. 3.12 and above is recommended.")
 
     if args.disable_dynamic_vram:
-        logging.warning(
+        logging.info(
             "Dynamic vram disabled with argument. If you have any issues with "
             "dynamic vram enabled please give us a detailed reports as this "
             "argument will be removed soon. If you use gguf we recommend keeping "
